@@ -1,6 +1,6 @@
 {
     "name": "domainql-webpack-plugin",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Collects static graphql query exports from entry points to preload them on the server side",
     "main": "index.js",
     "author": "Sven Helmberger",
