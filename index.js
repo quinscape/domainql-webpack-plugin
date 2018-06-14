@@ -30,7 +30,8 @@ function onBuildDone(stats)
         const queriesMap = {};
         data.chunks.forEach(chunk => {
 
-            const queryModules = chunk.modules.filter(mod => mod.depth === 0 && mod.providedExports.indexOf(PRELOADED_QUERIES_VAR) >= 0);
+            const queryModules = chunk.modules.filter(mod => mod.depth === 0 && mod.providedExports && mod.providedExports.indexOf(PRELOADED_QUERIES_VAR) >= 0);
+
 
             if (opts.debug)
             {
