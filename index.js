@@ -8,7 +8,7 @@ function removeComments(source)
 {
     return (
         source
-            .replace(/\/\*[\S\s]*?\*\//gm,"")
+            .replace(/\/\*[\S\s]*?\*\//gm, "")
             .replace(/^(.*?)\/\/.*$/gm, "$1")
     );
 }
@@ -30,13 +30,8 @@ function onBuildDone(stats)
         const queriesMap = {};
         data.chunks.forEach(chunk => {
 
-            const queryModules = chunk.modules.filter(mod => mod.depth === 0 && mod.providedExports && mod.providedExports.indexOf(PRELOADED_QUERIES_VAR) >= 0);
+            const queryModules = chunk.modules.filter(mod => mod.depth === 0);
 
-
-            if (opts.debug)
-            {
-                console.log("Found", queryModules.length, " query exporting entry points in chunk", chunk.names[0]);
-            }
 
             for (let i = 0; i < queryModules.length; i++)
             {
@@ -44,11 +39,16 @@ function onBuildDone(stats)
 
                 const source = removeComments(mod.source || mod.modules[0].source);
 
-                const m = PRELOADED_QUERIES_RE.exec(source);
-                //console.log(m);
-                if (m)
+                const index = source.lastIndexOf(PRELOADED_QUERIES_VAR);
+                if (index >= 0)
                 {
-                    queriesMap[chunk.names[0]] = m[1];
+                    const querySource = source.substr(index).replace(/.*?=/, "");
+                    queriesMap[chunk.names[0]] = querySource;
+
+                    if (opts.debug)
+                    {
+                        console.log("Found preloaded queries in chunk", chunk.names[0], " = ", querySource);
+                    }
                 }
                 else
                 {
