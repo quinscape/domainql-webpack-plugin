@@ -91,7 +91,8 @@ function DomainQLPlugin(opts)
 DomainQLPlugin.prototype.apply = function (compiler) {
     this.buildDir = compiler.options.output.path;
 
-    compiler.plugin('done', this.onBuildDone);
+    compiler.hooks.done.tap("domainql-plugin", this.onBuildDone);
+
 };
 
 module.exports = DomainQLPlugin;

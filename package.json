@@ -5,5 +5,7 @@
     "main": "index.js",
     "author": "Sven Helmberger",
     "license": "MIT",
-    "dependencies": {}
+    "peerDependencies": {
+        "webpack": "^5.51.1"
+    }
 }
